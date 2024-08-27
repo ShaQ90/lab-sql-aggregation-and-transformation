@@ -6,7 +6,7 @@ SELECT min(length) as min_duration , max(length) as max_duration  FROM film;
 
 -- 1.2. Express the average movie duration in hours and minutes. Don't use decimals.
 -- Hint: Look for floor and round functions.
-SELECT floor((length/60)) as hour, floor(((length/60) -floor((length/60))) *60) as minutes  FROM film;
+SELECT floor(avg(length)/60) as hour, floor(avg(length)%60) as minutes  FROM film;
 
 -- 2 You need to gain insights related to rental dates:
 -- 2.1 Calculate the number of days that the company has been operating.
@@ -39,7 +39,7 @@ SELECT CONCAT(first_name," ",last_name) as "full_name", LEFT(email,3) as "email"
 -- Challenge 2
 -- Next, you need to analyze the films in the collection to gain some more insights. Using the film table, determine:
 -- 1.1 The total number of films that have been released.
-SELECT rating, COUNT(film_id) as "amout" FROM film;
+SELECT COUNT(film_id) as "amout" FROM film;
 
 -- 1.2 The number of films for each rating.
 SELECT rating, count(film_id) AS 'amout'
@@ -50,7 +50,7 @@ GROUP BY rating;
 SELECT rating, count(film_id) AS 'Film by raking' 
 FROM film
 GROUP BY rating
-ORDER BY count(film_id);
+ORDER BY count(film_id) DESC;
 -- 2. Using the film table, determine:
 -- 2.1 The mean film duration for each rating, and sort the results in descending order of the mean duration. Round off the average lengths to two decimal places. This will help identify popular movie lengths for each category.
 SELECT rating, round(avg(length), 2) AS 'Avergae film duration' 
@@ -67,4 +67,4 @@ HAVING avg(length) >120;
 
 -- 3. Bonus: determine which last names are not repeated in the table actor.
 
-SELECT DISTINCT last_name from actor;
+SELECT last_name FROM actor GROUP BY last_name HAVING COUNT(*) = 1;
